@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dan Saxon — Operations Leadership</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#ffffff;
+    --paper-alt:#f2efe9;
+    --ink:#1b2430;
+    --ink-soft:#4b5563;
+    --rust:#a15c2e;
+    --rust-deep:#7c4522;
+    --steel:#38536b;
+    --line:#d9d3c6;
+    --line-strong:#1b2430;
+    --max:1080px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{
+    font-family:'Source Serif 4', serif;
+    font-weight:500;
+    margin:0;
+    color:var(--ink);
+  }
+  a{color:inherit;}
+  .wrap{max-width:var(--max); margin:0 auto; padding:0 32px;}
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  /* ---------- NAV ---------- */
+  header.site{
+    position:sticky; top:0; z-index:10;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .navbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px; max-width:var(--max); margin:0 auto;
+  }
+  .navbar .name{
+    font-family:'Source Serif 4', serif;
+    font-size:1.05rem;
+    letter-spacing:0.01em;
+  }
+  .navbar nav{display:flex; gap:28px;}
+  .navbar nav a{
+    font-size:0.92rem;
+    text-decoration:none;
+    color:var(--ink-soft);
+    border-bottom:1px solid transparent;
+    padding-bottom:2px;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .navbar nav a:hover{ color:var(--ink); border-color:var(--rust); }
+  @media (max-width:700px){ .navbar nav{display:none;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:76px 0 64px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:56px;
+    align-items:center;
+  }
+  @media (max-width:820px){ .hero-grid{grid-template-columns:1fr; gap:36px;} }
+
+  .hero-id{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    margin-bottom:16px;
+  }
+  .headshot{
+    width:76px; height:76px;
+    object-fit:cover;
+    border:1px solid var(--line-strong);
+    flex-shrink:0;
+  }
+
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--rust-deep);
+  }
+  .hero h1{
+    font-size:clamp(2.1rem, 4.2vw, 3.1rem);
+    line-height:1.12;
+    max-width:11ch;
+  }
+  .hero .role{
+    font-size:1.15rem;
+    color:var(--steel);
+    margin-top:14px;
+    font-weight:500;
+  }
+  .hero p.lede{
+    margin-top:20px;
+    max-width:46ch;
+    color:var(--ink-soft);
+    font-size:1.02rem;
+  }
+  .hero-actions{ margin-top:30px; display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    display:inline-block;
+    padding:12px 22px;
+    font-size:0.92rem;
+    font-weight:500;
+    text-decoration:none;
+    border:1px solid var(--line-strong);
+    transition:background .15s ease, color .15s ease, transform .15s ease;
+  }
+  .btn-solid{ background:var(--ink); color:var(--paper); }
+  .btn-solid:hover{ background:var(--rust); border-color:var(--rust); }
+  .btn-outline{ background:transparent; color:var(--ink); }
+  .btn-outline:hover{ background:var(--paper-alt); }
+
+  /* video placeholder */
+  .video-frame{
+    border:1px solid var(--line-strong);
+    aspect-ratio:4/5;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    text-align:center;
+    padding:24px;
+    background:
+      repeating-linear-gradient(135deg, var(--paper-alt) 0 2px, var(--paper) 2px 14px);
+    position:relative;
+  }
+  .video-frame::before{
+    content:"";
+    position:absolute; inset:10px;
+    border:1px solid var(--line);
+    pointer-events:none;
+  }
+  .video-frame .play{
+    width:52px; height:52px;
+    border:1px solid var(--ink);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .video-frame .play svg{ width:16px; height:16px; fill:var(--ink); margin-left:2px; }
+  .video-frame span{ font-size:0.85rem; color:var(--ink-soft); max-width:22ch; }
+  .video-frame .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.02em;
+    color:var(--rust-deep);
+  }
+
+  /* ---------- STATS STRIP ---------- */
+  .stats{
+    padding:44px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+  }
+  .stats-grid div{
+    padding:0 24px;
+    border-left:1px solid var(--line);
+  }
+  .stats-grid div:first-child{ border-left:none; padding-left:0; }
+  @media (max-width:760px){
+    .stats-grid{ grid-template-columns:1fr 1fr; row-gap:28px;}
+    .stats-grid div:nth-child(3){ border-left:none; padding-left:0; }
+  }
+  @media (max-width:460px){
+    .stats-grid{ grid-template-columns:1fr; }
+    .stats-grid div{ border-left:none; padding-left:0; }
+  }
+  .stat-num{
+    font-family:'Source Serif 4', serif;
+    font-size:2rem;
+    color:var(--rust-deep);
+  }
+  .stat-label{
+    font-size:0.86rem;
+    color:var(--ink-soft);
+    margin-top:6px;
+  }
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{ padding:72px 0; border-bottom:1px solid var(--line); }
+  .section-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:24px;
+    margin-bottom:40px;
+  }
+  .section-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+    color:var(--ink-soft);
+  }
+  .section-head h2{ font-size:1.7rem; }
+
+  /* ---------- PHILOSOPHY ---------- */
+  .philosophy-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:36px;
+  }
+  @media (max-width:760px){ .philosophy-grid{ grid-template-columns:1fr; } }
+  .philosophy-item{ border-left:2px solid var(--rust); padding-left:20px; }
+  .philosophy-item h3{ font-size:1.08rem; margin-bottom:10px; }
+  .philosophy-item p{ color:var(--ink-soft); font-size:0.95rem; }
+
+  /* ---------- LOGO STRIP ---------- */
+  .logo-strip{
+    display:flex;
+    align-items:center;
+    gap:44px;
+    flex-wrap:wrap;
+    padding-bottom:40px;
+    margin-bottom:40px;
+    border-bottom:1px solid var(--line);
+  }
+  .logo-strip .logo-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--ink-soft);
+    letter-spacing:0.01em;
+  }
+  .logo-strip img{
+    height:30px;
+    width:auto;
+    filter:grayscale(1);
+    opacity:0.55;
+    transition:filter .2s ease, opacity .2s ease;
+  }
+  .logo-strip img:hover{
+    filter:grayscale(0);
+    opacity:1;
+  }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline{ position:relative; padding-left:28px; }
+  .timeline::before{
+    content:"";
+    position:absolute; left:5px; top:6px; bottom:6px;
+    width:1px; background:var(--line);
+  }
+  .tl-item{ position:relative; padding-bottom:44px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{
+    content:"";
+    position:absolute; left:-28px; top:4px;
+    width:11px; height:11px;
+    background:var(--paper);
+    border:2px solid var(--rust-deep);
+  }
+  .tl-meta{
+    display:flex; flex-wrap:wrap; gap:10px 16px; align-items:baseline;
+    margin-bottom:6px;
+  }
+  .tl-role{ font-size:1.1rem; font-weight:600; font-family:'Source Serif 4', serif;}
+  .tl-org{ color:var(--steel); font-size:0.95rem; }
+  .tl-dates{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+  }
+  .tl-item p{ color:var(--ink-soft); max-width:64ch; font-size:0.95rem; }
+  .tl-item ul{ margin:10px 0 0; padding-left:18px; color:var(--ink-soft); font-size:0.95rem; }
+  .tl-item li{ margin-bottom:4px; }
+
+  /* ---------- COMPETENCIES ---------- */
+  .comp-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  @media (max-width:760px){ .comp-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:460px){ .comp-grid{ grid-template-columns:1fr; } }
+  .comp-cell{
+    background:var(--paper);
+    padding:22px 20px;
+  }
+  .comp-cell h4{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:0.95rem;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .comp-cell p{ font-size:0.86rem; color:var(--ink-soft); margin:0; }
+
+  /* ---------- PERSONAL ---------- */
+  .personal-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:36px;
+  }
+  @media (max-width:760px){ .personal-grid{ grid-template-columns:1fr; } }
+  .personal-item{ border-left:2px solid var(--steel); padding-left:20px; }
+  .personal-item h3{ font-size:1.02rem; margin-bottom:8px; font-family:'IBM Plex Sans', sans-serif; font-weight:600; }
+  .personal-item p{ color:var(--ink-soft); font-size:0.93rem; }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer{ padding:72px 0 56px; border-bottom:none; }
+  .contact-grid{
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    gap:40px;
+    align-items:start;
+  }
+  @media (max-width:700px){ .contact-grid{ grid-template-columns:1fr; } }
+  footer h2{ font-size:1.9rem; max-width:14ch; }
+  footer .lede{ color:var(--ink-soft); margin-top:16px; max-width:44ch; }
+  .contact-list{ list-style:none; padding:0; margin:26px 0 0; }
+  .contact-list li{
+    border-top:1px solid var(--line);
+    padding:14px 0;
+    display:flex; justify-content:space-between; gap:16px;
+    font-size:0.95rem;
+  }
+  .contact-list li:last-child{ border-bottom:1px solid var(--line); }
+  .contact-list .k{ color:var(--ink-soft); }
+  .contact-list a{ text-decoration:none; }
+  .contact-list a:hover{ color:var(--rust); }
+  .foot-note{
+    margin-top:40px;
+    font-size:0.78rem;
+    color:var(--ink-soft);
+    font-family:'IBM Plex Mono', monospace;
+  }
+
+  /* entrance motion — one orchestrated moment only */
+  .hero-id, .hero h1, .hero .role, .hero p.lede, .hero-actions, .video-frame{
+    opacity:0;
+    animation:rise .6s ease forwards;
+  }
+  .hero-id{animation-delay:.02s;}
+  .hero h1{animation-delay:.08s;}
+  .hero .role{animation-delay:.14s;}
+  .hero p.lede{animation-delay:.2s;}
+  .hero-actions{animation-delay:.26s;}
+  .video-frame{animation-delay:.18s;}
+  @keyframes rise{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+  @media (prefers-reduced-motion: reduce){
+    .hero-id, .hero h1, .hero .role, .hero p.lede, .hero-actions, .video-frame{
+      animation:none; opacity:1;
+    }
+  }
+
+  :focus-visible{ outline:2px solid var(--rust); outline-offset:2px; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="navbar">
+    <div class="name">Dan Saxon</div>
+    <nav>
+      <a href="#philosophy">Approach</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#personal">Beyond Work</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="hero-id">
+        <img class="headshot" src="dan-saxon-headshot.png" alt="Dan Saxon">
+        <div class="hero-eyebrow">PROGRAM MANAGEMENT &amp; CONTINUOUS IMPROVEMENT — LOS ANGELES, CA</div>
+      </div>
+      <h1>Dan Saxon</h1>
+      <div class="role">Chief Operating Officer, Bakon USA</div>
+      <p class="lede">
+        I lead complex, cross-functional programs, warehouse and distribution operations,
+        and continuous improvement initiatives — building the KPI frameworks, governance
+        routines, and teams that deliver multi-site, multi-million-dollar initiatives on
+        time and on budget. This page is the short version of my resume, with a quick
+        video introduction below.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-solid" href="#contact">Get in touch</a>
+        <a class="btn btn-outline" href="dan-saxon-resume.docx" download>Download résumé</a>
+      </div>
+    </div>
+    <div class="video-frame">
+      <div class="play" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <span>Video introduction — coming soon</span>
+      <div class="tag"><!-- Replace this block with your embed, e.g.
+            <video controls src="your-video.mp4" style="width:100%;height:100%;object-fit:cover;"></video>
+          or a YouTube/Vimeo iframe. -->PLACEHOLDER · REPLACE WITH VIDEO EMBED</div>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="wrap stats-grid">
+    <div>
+      <div class="stat-num">12+</div>
+      <div class="stat-label">Years leading operations &amp; cross-functional programs</div>
+    </div>
+    <div>
+      <div class="stat-num">$32M</div>
+      <div class="stat-label">Multi-site program delivered on time and on budget</div>
+    </div>
+    <div>
+      <div class="stat-num">25%</div>
+      <div class="stat-label">YoY cost reduction driven ($300K)</div>
+    </div>
+    <div>
+      <div class="stat-num">350</div>
+      <div class="stat-label">Employees supported under functional operations leadership</div>
+    </div>
+  </div>
+</section>
+
+<section id="philosophy">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>How I lead</h2>
+      <div class="section-num">01 / Approach</div>
+    </div>
+    <div class="philosophy-grid">
+      <div class="philosophy-item">
+        <h3>Process before headcount</h3>
+        <p>Most capacity problems are process problems. I fix the flow first — order-to-cash,
+          inventory allocation, 3PL handoffs — before I ask for more people. Lean Six Sigma
+          isn't a certification on a wall, it's how I diagnose a bottleneck.</p>
+      </div>
+      <div class="philosophy-item">
+        <h3>Numbers the whole room trusts</h3>
+        <p>P&amp;L ownership means the finance team, the warehouse floor, and the executive
+          team are looking at the same numbers. I build reporting people believe, so
+          decisions don't stall on "whose data is right."</p>
+      </div>
+      <div class="philosophy-item">
+        <h3>Culture is a working condition</h3>
+        <p>Teams do their best work when expectations are clear and feedback is direct.
+          I run operations the way I'd want to be managed — honest about gaps, generous
+          with context, and quick to fix what isn't working.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Experience</h2>
+      <div class="section-num">02 / Career</div>
+    </div>
+    <div class="logo-strip">
+      <span class="logo-label">OPERATIONS LEADERSHIP AT</span>
+      <img src="bakon-logo.png" alt="Bakon USA">
+      <img src="bakkavor-logo.png" alt="Bakkavor USA">
+      <img src="amcor-logo.png" alt="Amcor">
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-meta">
+          <span class="tl-role">Chief Operating Officer</span>
+          <span class="tl-org">Bakon USA — Torrance, CA</span>
+          <span class="tl-dates">10/2023 – Present</span>
+        </div>
+        <p>Strategic partner to the President, owning end-to-end operations, program governance,
+          and North American distribution for a $5.5M manufacturing and distribution entity.</p>
+        <ul>
+          <li>Lead operations for Bakon USA's role as the sole North American distributor of Bakon Food Equipment, managing distribution and fulfillment relationships with major accounts including Sara Lee and Costco.</li>
+          <li>Serve as primary advisor to the President, establishing departmental KPIs and a structured operating cadence — a formal governance framework spanning all functions.</li>
+          <li>Led a company-wide expense analysis and improvement initiative that decreased YoY costs by 25% ($300K).</li>
+          <li>Directed an organization-wide restructuring program, achieving 20% lean-staffing efficiency while improving service quality and throughput.</li>
+          <li>Led end-to-end implementation of Odoo (ERP) as a company-wide systems transformation, creating a single source of truth for financial and operational data.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-meta">
+          <span class="tl-role">Director of Operations</span>
+          <span class="tl-org">Bakkavor USA — Carson, CA</span>
+          <span class="tl-dates">09/2021 – 04/2023</span>
+        </div>
+        <p>Led West Coast operations through a period of exponential growth and multi-site transformation,
+          managing 8–12 direct reports with functional responsibility for a workforce of up to 350 employees,
+          while aligning cross-functional stakeholders to deliver major programs for Tier-1 national retail accounts.</p>
+        <ul>
+          <li>Reduced warehouse stock by 20% ($400K) and cut operating costs by 13% by increasing on-site capacity and eliminating reliance on offsite storage.</li>
+          <li>Directed a $32M multi-site product launch program for Tier-1 national accounts, aligning Product, Finance, and Logistics stakeholders to deliver on time and on budget.</li>
+          <li>Delivered $1.3M in labor savings and $200K in supply chain optimization through data-driven scheduling and bottleneck analysis.</li>
+          <li>Built and led an "Operational Excellence HUB," a formal Lean-based CI program that standardized KPIs across sites, empowered site leadership, and reduced accident rates by 80%.</li>
+          <li>Advised the executive team on West Coast scaling strategy, using competitive analysis to inform network and investment decisions.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-meta">
+          <span class="tl-role">Senior Operations Manager</span>
+          <span class="tl-org">Bakkavor USA — Carson, CA</span>
+          <span class="tl-dates">2019 – 2021</span>
+        </div>
+        <ul>
+          <li>Partnered with Amazon to launch 21 SKUs, exceeding P&amp;L expectations by $1.1M; used Microsoft Project to manage program cadence and track milestone progress through disciplined process design and cross-functional performance management.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-meta">
+          <span class="tl-role">Production Manager / Accelerated Management Scheme</span>
+          <span class="tl-org">Bakkavor UK — Manchester, UK</span>
+          <span class="tl-dates">2013 – 2019</span>
+        </div>
+        <p>Managed a team of 12 direct reports, with functional responsibility for a broader
+          production workforce of approximately 80 employees.</p>
+        <ul>
+          <li>Volunteered to lead an underperforming business unit, applying root cause analysis (RCA) methodology to restore profitability while maintaining 100% KPI compliance.</li>
+          <li>Improved labor variance from -$85K to +$134K through equipment maintenance scheduling and waste-reduction projects, delivering $300K in savings.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="tl-meta">
+          <span class="tl-role">Intern — Value Stream Mapping</span>
+          <span class="tl-org">Amcor — Horsens, Denmark</span>
+          <span class="tl-dates">Pre-2013</span>
+        </div>
+        <p>Early exposure to Lean methodology — mapping value streams to identify process
+          inefficiencies, the starting point for the continuous-improvement work that's run
+          through every role since.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Core skills</h2>
+      <div class="section-num">03 / Toolkit</div>
+    </div>
+    <div class="comp-grid">
+      <div class="comp-cell"><h4>Program &amp; Portfolio Management</h4><p>Multi-site program execution, scope/timeline/cost ownership, budget &amp; resource management.</p></div>
+      <div class="comp-cell"><h4>Warehouse &amp; Distribution</h4><p>Distribution network management, warehouse optimization, inventory reduction.</p></div>
+      <div class="comp-cell"><h4>Continuous Improvement</h4><p>Lean Six Sigma (Green Belt), root cause analysis.</p></div>
+      <div class="comp-cell"><h4>Governance &amp; Reporting</h4><p>KPI design &amp; tracking.</p></div>
+      <div class="comp-cell"><h4>Change Management</h4><p>ERP implementation (Odoo), organizational redesign, cross-functional process standardization.</p></div>
+      <div class="comp-cell"><h4>Stakeholder Leadership</h4><p>Cross-functional team alignment, executive advisory, team development &amp; mentoring.</p></div>
+      <div class="comp-cell"><h4>Fiscal Stewardship</h4><p>P&amp;L management, cost discipline, margin optimization.</p></div>
+      <div class="comp-cell"><h4>Technical Proficiency</h4><p>Microsoft Office Suite (Excel, PowerPoint, Word, Outlook), Microsoft Project — daily use.</p></div>
+      <div class="comp-cell"><h4>MBA, University of Liverpool</h4><p>Plus B.A. International Business Management and Lean Six Sigma Green Belt certification.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="personal">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Beyond work</h2>
+      <div class="section-num">04 / Personal</div>
+    </div>
+    <div class="personal-grid">
+      <div class="personal-item">
+        <h3>Cycling</h3>
+        <p>Rode San Francisco to Los Angeles end to end, and currently working my way through
+          cycling the entire West Coast, one stretch at a time.</p>
+      </div>
+      <div class="personal-item">
+        <h3>Golf</h3>
+        <p>A regular on the course — the same patience for a bad lie as I have for a bad
+          quarter.</p>
+      </div>
+      <div class="personal-item">
+        <h3>Premier League</h3>
+        <p>Avid English football fan. I'll happily talk tactics, table position, or transfer
+          window drama any time of year.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap contact-grid">
+    <div>
+      <h2>Let's talk operations.</h2>
+      <p class="lede">
+        I'm actively exploring senior operations leadership roles across Los Angeles.
+        If you're hiring, or just want to compare notes on supply chain, reach out directly.
+      </p>
+      <a class="btn btn-solid" id="resume-download" href="dan-saxon-resume.docx" download style="margin-top:24px; display:inline-block;">Download résumé (.docx)</a>
+    </div>
+    <ul class="contact-list">
+      <li><span class="k">Email</span> <a href="mailto:dsaxon613@gmail.com">dsaxon613@gmail.com</a></li>
+      <li><span class="k">Phone</span> <a href="tel:+14244091184">+1 424-409-1184</a></li>
+      <li><span class="k">LinkedIn</span> <a href="https://linkedin.com/in/daniel-saxon613" target="_blank" rel="noopener">linkedin.com/in/daniel-saxon613</a></li>
+      <li><span class="k">Location</span> <span>Los Angeles, CA</span></li>
+    </ul>
+  </div>
+</footer>
+
+</body>
+</html>
